@@ -6,8 +6,15 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 ## Stato attuale
 
-- Fase: **progettazione**. Non c'è ancora codice, quindi non esistono comandi di build, test o avvio. Quando arriveranno (es. `package.json`), aggiungi qui una sezione "Comandi".
-- Prossimo passo: milestone **M0** (analisi manuali in `docs/lab/`), poi **M1** (vedi la roadmap nel brief).
+- Fase: **M1** (acquisizione ed estrazione). M0 è completata: note dei 3 siti e casi difficili in `docs/lab/`.
+- Il piano passo per passo è in [docs/roadmap.md](docs/roadmap.md).
+
+## Comandi
+
+- `engine/`: `npm test` (`node:test`), `npm run typecheck` (`tsc --noEmit`). I file `.ts` si eseguono direttamente con Node ≥ 22.18, senza compilazione.
+- `client/`: `npm run dev` (Vite, http://localhost:5173), `npm run build`, `npm run lint` (oxlint).
+- `server/`: `npm run dev` (Express con `node --watch`, http://localhost:3000), `npm start`.
+- Browser per Playwright: `npx playwright install chromium` (da `engine/`, serve dopo un'installazione pulita).
 
 ## Come lavorare con l'utente
 
@@ -26,7 +33,12 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 ## Stack
 
-TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colori, OKLCH, Delta E). Frontend e hosting non ancora decisi: vedi "Decisioni aperte" nel brief.
+TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colori, OKLCH, Delta E).
+
+- **engine:** TypeScript eseguito direttamente da Node (i tipi vengono cancellati, `tsc` serve solo a controllarli; `erasableSyntaxOnly` e `verbatimModuleSyntax` attivi), Playwright, test con `node:test`.
+- **client:** React + TypeScript (Vite), React Router, Tailwind v4 (plugin `@tailwindcss/vite`, nessun `tailwind.config.js`).
+- **server:** Node + Express 5 (ES module).
+- Hosting non ancora deciso: vedi "Decisioni aperte" nel brief.
 
 ## Convenzioni
 
@@ -44,4 +56,7 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 ## Mappa dei file
 
 - `docs/brief.md`: cos'è il progetto, logica di inferenza, architettura, roadmap.
-- `docs/lab/` (da creare in M0): quaderno di laboratorio, una nota per ogni sito analizzato a mano.
+- `docs/lab/`: quaderno di laboratorio. Le note di M0 (`shadcn-ui.md`, `bluesky.md`, `python-org.md`) con il "Risultato atteso" che i test di M3 devono verificare, `casi-difficili.md` (casi e decisioni aperte per M3), `_modello.md`.
+- `engine/`: la pipeline e la CLI; qui gira Playwright con Chromium headless.
+- `client/`: interfaccia web (report).
+- `server/`: API Express che userà l'engine (M4).

@@ -1,0 +1,21 @@
+{
+  "name": "engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Design XRAY engine: pipeline that turns a public URL into design tokens",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test \"test/**/*.test.ts\""
+  },
+  "dependencies": {
+    "playwright": "^1.65.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
+}

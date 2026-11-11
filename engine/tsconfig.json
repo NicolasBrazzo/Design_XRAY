@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    // Node esegue i .ts cancellando i tipi: TypeScript serve solo a controllarli, non produce file.
+    "noEmit": true,
+
+    // Moduli risolti come li risolve Node (ESM, estensione obbligatoria negli import relativi).
+    "module": "nodenext",
+    // Negli import si scrive il file vero, './foo.ts': Node non riscrive le estensioni.
+    "allowImportingTsExtensions": true,
+
+    // Solo sintassi che si può cancellare senza riscrivere il codice: niente enum, namespace, parameter properties.
+    "erasableSyntaxOnly": true,
+    // Gli import di soli tipi vanno scritti 'import type', così Node sa che può eliminarli interi.
+    "verbatimModuleSyntax": true,
+
+    // JavaScript che Node 22.18+ esegue così com'è, più i tipi del DOM:
+    // le API di Playwright li usano, e in M1.5 scriveremo codice che gira nella pagina.
+    "target": "es2024",
+    "lib": ["es2024", "dom"],
+    "types": ["node"],
+
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src", "test"]
+}
