@@ -63,7 +63,7 @@ Sono tre delle cinque fasi del progetto completo, in miniatura. Le altre due (no
 - [x] In Console: `getComputedStyle(document.body).backgroundColor`.
 - [x] Confrontare il valore della Console con quello del pannello degli stili.
 - [x] Esperimento: togliere la classe `dark` da `<html>` e rileggere lo sfondo.
-- [ ] Rispondere alla domanda di verifica.
+- [x] Rispondere alla domanda di verifica.
 
 **Cosa hai visto:**
 
