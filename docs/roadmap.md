@@ -44,9 +44,9 @@ Sono tre delle cinque fasi del progetto completo, in miniatura. Le altre due (no
 
 **Obiettivo:** poter eseguire file TypeScript con Node, senza compilarli.
 
-- [ ] Aggiornare Node.js. Ora è installato il 22.14, ma Node esegue i file `.ts` direttamente solo dalla 22.18 in poi. Installa l'ultima versione LTS da [nodejs.org](https://nodejs.org/en/download) e controlla con `node --version`.
-- [ ] Da `engine/`: `npm install`, poi `npx playwright install chromium` (scarica il browser che Playwright userà).
-- [ ] Da `engine/`: `npm test`. C'è già un test che controlla che Chromium sia installato.
+- [x] Aggiornare Node.js. Ora è installato il 22.14, ma Node esegue i file `.ts` direttamente solo dalla 22.18 in poi. Installa l'ultima versione LTS da [nodejs.org](https://nodejs.org/en/download) e controlla con `node --version`.
+- [x] Da `engine/`: `npm install`, poi `npx playwright install chromium` (scarica il browser che Playwright userà).
+- [x] Da `engine/`: `npm test`. C'è già un test che controlla che Chromium sia installato.
 
 **Cosa capire:** Node "cancella" i tipi TypeScript e poi esegue il JavaScript che resta. Quindi in un file `.ts` puoi scrivere JavaScript normale: i tipi li aggiungi quando servono.
 
