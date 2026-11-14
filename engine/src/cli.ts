@@ -1,9 +1,35 @@
 import { chromium } from "playwright";
 
-async function readBodyBackground() {
-  const browser = await chromium.launch();
+function websiteIsValid(website: string) {
+  try {
+    const url = new URL(website);
 
-  const website = "https://carlocolombatto.it/";
+    if (!(url.protocol === "https:") && !(url.protocol === "http:")) {
+      return {result: false, error: "È un URL, ma il protocollo non è permesso: solo http e https"};
+    }
+  } catch {
+    return {result: false, error: "URL non valido"};
+  }
+
+  return {result: true};
+}
+
+async function readBodyBackground() {
+  const website = process.argv[2];
+  
+  if(website === undefined) {
+    process.exitCode = 1;
+    return console.error("Manca l'URL. Uso: node src/cli.ts <url>")
+  }
+
+  const check = websiteIsValid(website);
+
+  if (!check.result) {
+    process.exitCode = 1;
+    return console.error(check.error);
+  }
+
+  const browser = await chromium.launch();
 
   try {
     const page = await browser.newPage();
@@ -13,6 +39,7 @@ async function readBodyBackground() {
     });
     console.log(backgroundColor);
   } catch (err) {
+    process.exitCode = 1;
     console.log("Error: ", err);
   } finally {
     await browser.close();
