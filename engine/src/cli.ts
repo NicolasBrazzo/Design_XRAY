@@ -1,7 +1,8 @@
-import { chromium, errors } from "playwright" 
+import { chromium, errors } from "playwright";
 import validateUrl from "./utils/validateUrl.ts";
+import { readBackground } from "./background.ts";
 
-async function printPageBackground() {
+export async function printPageBackground() {
   const inputUrl = process.argv[2];
 
   if (inputUrl === undefined) {
@@ -22,28 +23,13 @@ async function printPageBackground() {
     const page = await browser.newPage();
     const sendToPage = await page.goto(inputUrl);
 
-    if(!sendToPage?.ok()) {
+    if (!sendToPage?.ok()) {
       console.error("Errore pagina", sendToPage?.status());
       process.exitCode = 1;
       return;
     }
 
-    const pageBackground = await page.evaluate(() => {
-      const bodyBackground = getComputedStyle(document.body).backgroundColor;
-
-      if (bodyBackground === "rgba(0, 0, 0, 0)") {
-        const htmlBackground = getComputedStyle(
-          document.documentElement,
-        ).backgroundColor;
-
-        if (htmlBackground === "rgba(0, 0, 0, 0)") {
-          return { color: "rgb(255, 255, 255)", source: "default" };
-        }
-        return { color: htmlBackground, source: "html" };
-      } else {
-        return { color: bodyBackground, source: "body" };
-      }
-    });
+    const pageBackground = await readBackground(page);
 
     const pageBackgroundResult = {
       background: pageBackground.color,
@@ -53,7 +39,6 @@ async function printPageBackground() {
 
     console.log(JSON.stringify(pageBackgroundResult, null, 2));
   } catch (error: any) {
-
     if (error.message.includes("ERR_NAME_NOT_RESOLVED")) {
       console.error("Nome del sito non trovato");
       process.exitCode = 1;
