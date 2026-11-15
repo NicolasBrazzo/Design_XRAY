@@ -230,11 +230,11 @@ Sono tre delle cinque fasi del progetto completo, in miniatura. Le altre due (no
 
 ## MVP finito quando
 
-- [ ] `node src/cli.ts <url>` stampa il JSON con `url`, `background` e `source`.
-- [ ] Il `body` trasparente è gestito.
-- [ ] URL non valido, sito inesistente, tempo scaduto e pagina di errore danno messaggi chiari.
-- [ ] `npm test` passa senza internet.
-- [ ] Sai rispondere a tutte le domande di verifica senza riaprire il codice.
+- [x] `node src/cli.ts <url>` stampa il JSON con `url`, `background` e `source`.
+- [x] Il `body` trasparente è gestito.
+- [x] URL non valido, sito inesistente, tempo scaduto e pagina di errore danno messaggi chiari.
+- [x] `npm test` passa senza internet.
+- [x] Sai rispondere a tutte le domande di verifica senza riaprire il codice.
 
 ## Limiti dichiarati
 
