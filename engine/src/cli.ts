@@ -1,4 +1,4 @@
-import { chromium } from "playwright";
+import { chromium, errors } from "playwright" 
 import validateUrl from "./utils/validateUrl.ts";
 
 async function printPageBackground() {
@@ -20,7 +20,13 @@ async function printPageBackground() {
 
   try {
     const page = await browser.newPage();
-    await page.goto(inputUrl);
+    const sendToPage = await page.goto(inputUrl);
+
+    if(!sendToPage?.ok()) {
+      console.error("Errore pagina", sendToPage?.status());
+      process.exitCode = 1;
+      return;
+    }
 
     const pageBackground = await page.evaluate(() => {
       const bodyBackground = getComputedStyle(document.body).backgroundColor;
@@ -42,13 +48,26 @@ async function printPageBackground() {
     const pageBackgroundResult = {
       background: pageBackground.color,
       source: pageBackground.source,
-      url: page.url()
+      url: page.url(),
     };
 
     console.log(JSON.stringify(pageBackgroundResult, null, 2));
-  } catch (err) {
+  } catch (error: any) {
+
+    if (error.message.includes("ERR_NAME_NOT_RESOLVED")) {
+      console.error("Nome del sito non trovato");
+      process.exitCode = 1;
+      return;
+    }
+
+    if (error instanceof errors.TimeoutError) {
+      console.error("Timeout!");
+      process.exitCode = 1;
+      return;
+    }
+
     process.exitCode = 1;
-    console.error("Error: ", err);
+    console.error("Error: ", error.message);
   } finally {
     await browser.close();
   }

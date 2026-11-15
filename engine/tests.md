@@ -1,0 +1,1 @@
+node src/cli.ts https://example.com/pagina-che-non-esiste => 404
