@@ -2,7 +2,7 @@
 
 > Il primo obiettivo è piccolo apposta: **scrivi nel terminale l'URL di una pagina e il programma ti dice di che colore è lo sfondo.** Nient'altro.
 
-**Ultimo aggiornamento:** 11 novembre 2026 · **Passo attuale:** 0
+**Ultimo aggiornamento:** 16 novembre 2026 · **Stato:** MVP completato. Il lavoro continua in [roadmap-sfondi.md](roadmap-sfondi.md).
 
 Il piano completo (M0–M6) è archiviato in [archivio/roadmap-completa.md](archivio/roadmap-completa.md). Non serve leggerlo adesso: lo riprendiamo quando l'MVP è finito e ogni sua parte ti è chiara.
 

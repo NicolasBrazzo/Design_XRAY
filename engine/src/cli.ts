@@ -1,4 +1,4 @@
-import { chromium, errors } from "playwright";
+import { chromium, errors, type Browser } from "playwright";
 import validateUrl from "./utils/validateUrl.ts";
 import { readBackground } from "./background.ts";
 
@@ -17,9 +17,11 @@ export async function printPageBackground() {
     return console.error(validation.error);
   }
 
-  const browser = await chromium.launch();
+  let browser: Browser | undefined;
 
   try {
+    browser = await chromium.launch();
+    
     const page = await browser.newPage();
     const sendToPage = await page.goto(inputUrl);
 
@@ -45,6 +47,14 @@ export async function printPageBackground() {
       return;
     }
 
+    if (error.message.includes("Executable doesn't exist")) {
+      console.error(
+        "Chromium non trovato. Installalo con: npx playwright install chromium",
+      );
+      process.exitCode = 1;
+      return;
+    }
+
     if (error instanceof errors.TimeoutError) {
       console.error("Timeout!");
       process.exitCode = 1;
@@ -54,8 +64,8 @@ export async function printPageBackground() {
     process.exitCode = 1;
     console.error("Error: ", error.message);
   } finally {
-    await browser.close();
+    await browser?.close();
   }
 }
 
-printPageBackground();
+if (import.meta.main) await printPageBackground();

@@ -4,7 +4,7 @@ Cose notate durante il lavoro, da riprendere più avanti. Non bloccano il passo 
 
 ## Riconoscere un colore trasparente (passo 5)
 
-**Dove:** `engine/src/cli.ts`, dentro `page.evaluate`.
+**Dove:** `engine/src/background.ts`, dentro `page.evaluate`.
 
 **Situazione:** oggi un colore è considerato trasparente solo se è la stringa esatta `"rgba(0, 0, 0, 0)"`. Va bene per il trasparente puro, perché `getComputedStyle` lo restituisce sempre in quel formato.
 

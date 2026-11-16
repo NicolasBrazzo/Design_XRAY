@@ -38,10 +38,10 @@ Come nell'MVP: il codice lo scrivi tu, io do indizi e rivedo. Prima di spuntare 
 
 **Obiettivo:** chiudere i piccoli problemi emersi dalla revisione dell'MVP, prima di costruirci sopra.
 
-- [ ] **Non eseguire la CLI all'import.** In `cli.ts` la funzione `printPageBackground()` è esportata ma viene anche chiamata a livello di modulo: chi la importa la fa partire senza volerlo. Fai in modo che parta solo quando il file è eseguito da terminale. *Indizio:* cerca `import.meta.main` nella documentazione di Node sui moduli ES (disponibile dalla 22.18).
-- [ ] **Mettere `chromium.launch()` dentro la gestione degli errori**, in modo che un Chromium mancante dia un messaggio chiaro. Attenzione: se il `launch` fallisce, `browser` non esiste e nel `finally` non puoi chiuderlo. Come si gestisce?
-- [ ] **Aggiornare i documenti:** nel `docs/roadmap.md` l'intestazione dice ancora "Passo attuale: 0"; in `docs/da-sistemare.md` il file indicato (`cli.ts`) è ora `background.ts`.
-- [ ] Facoltativo, ma utile: un test per `validateUrl`, che è una funzione pura e quindi la più facile da testare.
+- [x] **Non eseguire la CLI all'import.** In `cli.ts` la funzione `printPageBackground()` è esportata ma viene anche chiamata a livello di modulo: chi la importa la fa partire senza volerlo. Fai in modo che parta solo quando il file è eseguito da terminale. *Indizio:* cerca `import.meta.main` nella documentazione di Node sui moduli ES (disponibile dalla 22.18).
+- [x] **Mettere `chromium.launch()` dentro la gestione degli errori**, in modo che un Chromium mancante dia un messaggio chiaro. Attenzione: se il `launch` fallisce, `browser` non esiste e nel `finally` non puoi chiuderlo. Come si gestisce?
+- [x] **Aggiornare i documenti:** nel `docs/roadmap.md` l'intestazione dice ancora "Passo attuale: 0"; in `docs/da-sistemare.md` il file indicato (`cli.ts`) è ora `background.ts`.
+- [x] Facoltativo, ma utile: un test per `validateUrl`, che è una funzione pura e quindi la più facile da testare.
 
 **Risorse:** [Node: `import.meta.main`](https://nodejs.org/api/esm.html#importmetamain) · [MDN: try...catch...finally](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
 
