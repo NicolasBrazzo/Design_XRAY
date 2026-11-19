@@ -135,9 +135,9 @@ Come nell'MVP: il codice lo scrivi tu, io do indizi e rivedo. Prima di spuntare 
 
 ## Finito quando
 
-- [ ] Importare `cli.ts` non lancia nulla.
-- [ ] `docs/lab/` contiene le regole su cosa si conta e cosa si scarta.
-- [ ] `rgbToHex` ha i suoi test e gestisce `rgba`.
+- [x] Importare `cli.ts` non lancia nulla.
+- [x] `docs/lab/` contiene le regole su cosa si conta e cosa si scarta.
+- [x] `rgbToHex` ha i suoi test e gestisce `rgba`.
 - [ ] `node src/cli.ts <url>` stampa la lista di sfondi con hex e conteggio, in ordine stabile.
 - [ ] `npm test` passa senza internet.
 - [ ] Sai rispondere a tutte le domande di verifica senza riaprire il codice.
