@@ -37,3 +37,8 @@ rgb(20, 34, 58)	            2
 rgb(28, 54, 92)	            6
 rgb(12, 23, 40)	            1
 rgb(16, 29, 48)	            3
+
+
+DA FILTRARE 
+- rgba che hanno come ultimo valore 0
+- oklab da tradurre in hex

@@ -55,7 +55,7 @@ Come nell'MVP: il codice lo scrivi tu, io do indizi e rivedo. Prima di spuntare 
 
 **Obiettivo:** capire cosa restituisce davvero `getComputedStyle` quando lo chiedi per **ogni** elemento, prima di scrivere codice. Come il Passo 1 dell'MVP.
 
-- [ ] Su 2 o 3 siti, in Console:
+- [x] Su 2 o 3 siti, in Console:
   ```js
   const counts = {};
   document.querySelectorAll('*').forEach(e => {
@@ -64,12 +64,12 @@ Come nell'MVP: il codice lo scrivi tu, io do indizi e rivedo. Prima di spuntare 
   });
   console.table(counts);
   ```
-- [ ] Annota in `docs/lab/` (usa `_modello.md`) cosa osservi, per esempio:
+- [x] Annota in `docs/lab/` (usa `_modello.md`) cosa osservi, per esempio:
   - quale valore compare più spesso, e perché (indizio: è un colore che nessuno ha scelto);
   - quanti valori distinti ci sono;
   - se compaiono colori semitrasparenti (`rgba(..., 0.5)`);
   - se ci sono elementi che non si vedono (nascosti, di larghezza 0, come `<script>` o `<style>`) e che colorano il conteggio.
-- [ ] Confronta con un sito che conosci: il colore più usato è quello che ti aspettavi?
+- [x] Confronta con un sito che conosci: il colore più usato è quello che ti aspettavi?
 
 **Cosa capire:** il conteggio grezzo mente. Prima di contare va deciso **cosa conta**: scartare i trasparenti e gli elementi invisibili. Queste regole le scegli tu, e vanno scritte (ricordi il principio "ogni risultato porta le sue prove").
 
