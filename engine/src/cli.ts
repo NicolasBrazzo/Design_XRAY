@@ -1,6 +1,6 @@
 import { chromium, errors, type Browser } from "playwright";
 import validateUrl from "./utils/validateUrl.ts";
-import { readBackground } from "./background.ts";
+import { readBackgrounds } from "./backgrounds.ts";
 
 export async function printPageBackground() {
   const inputUrl = process.argv[2];
@@ -31,15 +31,14 @@ export async function printPageBackground() {
       return;
     }
 
-    const pageBackground = await readBackground(page);
+    const backgrounds = await readBackgrounds(page);
 
-    const pageBackgroundResult = {
-      background: pageBackground.color,
-      source: pageBackground.source,
+    const result = {
       url: page.url(),
+      backgrounds,
     };
 
-    console.log(JSON.stringify(pageBackgroundResult, null, 2));
+    console.log(JSON.stringify(result, null, 2));
   } catch (error: any) {
     if (error.message.includes("ERR_NAME_NOT_RESOLVED")) {
       console.error("Nome del sito non trovato");
