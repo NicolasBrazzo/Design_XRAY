@@ -140,7 +140,7 @@ Come nell'MVP: il codice lo scrivi tu, io do indizi e rivedo. Prima di spuntare 
 - [x] `rgbToHex` ha i suoi test e gestisce `rgba`.
 - [x] `node src/cli.ts <url>` stampa la lista di sfondi con hex e conteggio, in ordine stabile.
 - [x] `npm test` passa senza internet.
-- [ ] Sai rispondere a tutte le domande di verifica senza riaprire il codice.
+- [x] Sai rispondere a tutte le domande di verifica senza riaprire il codice.
 
 ## E dopo?
 
