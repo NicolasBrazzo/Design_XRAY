@@ -6,9 +6,9 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 ## Stato attuale
 
-- Fase: **MVP**: dato un URL, il programma stampa il colore di sfondo della pagina. Il piano passo per passo è in [docs/roadmap.md](docs/roadmap.md).
-- Il piano completo (M0–M6) è sospeso e archiviato in [docs/archivio/roadmap-completa.md](docs/archivio/roadmap-completa.md). Le note di M0 in `docs/lab/` sono state generate con l'AI, non scritte dall'utente.
-- Il codice dell'MVP lo scrive l'utente: Claude spiega, dà indizi e rivede, e dà la soluzione solo se richiesta.
+- Fase: **palette di colori**. L'MVP (sfondo del `body`) e la roadmap degli sfondi sono finiti e archiviati. Ora si lavora ai colori del testo e dei bordi: il piano passo per passo è in [docs/roadmap-colori.md](docs/roadmap-colori.md).
+- Il piano completo (M0–M6) è sospeso e archiviato in [docs/archivio/roadmap-completa.md](docs/archivio/roadmap-completa.md). Le note di M0 in `docs/archivio/lab/` sono state generate con l'AI, non scritte dall'utente.
+- Il codice lo scrive l'utente: Claude spiega, dà indizi e rivede, e dà la soluzione solo se richiesta.
 
 ## Comandi
 
@@ -57,8 +57,10 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 ## Mappa dei file
 
 - `docs/brief.md`: cos'è il progetto, logica di inferenza, architettura, roadmap.
-- `docs/roadmap.md`: la roadmap dell'MVP. `docs/archivio/roadmap-completa.md`: il piano completo, sospeso.
-- `docs/lab/`: quaderno di laboratorio. Le note di M0 (`shadcn-ui.md`, `bluesky.md`, `python-org.md`) con il "Risultato atteso" che i test di M3 devono verificare, `casi-difficili.md` (casi e decisioni aperte per M3), `_modello.md`.
+- `docs/roadmap-colori.md`: la roadmap attiva (colori del testo e dei bordi).
+- `docs/archivio/`: `roadmap.md` (MVP, finito), `roadmap-sfondi.md` (finito), `roadmap-completa.md` (piano completo, sospeso).
+- `docs/lab/`: quaderno di laboratorio dell'utente (osservazioni e regole per ogni proprietà, per esempio `sfondi-conteggio-grezzo.md`, `colori-testo-conteggio-grezzo.md`) e `_modello.md`.
+- `docs/archivio/lab/`: le note di M0 (`shadcn-ui.md`, `bluesky.md`, `python-org.md`) con il "Risultato atteso" che i test di M3 dovranno verificare, e `casi-difficili.md` (casi e decisioni aperte per M3). Fanno parte del piano sospeso.
 - `engine/`: la pipeline e la CLI; qui gira Playwright con Chromium headless.
 - `client/`: interfaccia web (report).
 - `server/`: API Express che userà l'engine (M4).

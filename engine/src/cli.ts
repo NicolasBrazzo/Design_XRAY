@@ -2,6 +2,7 @@ import { chromium, errors, type Browser } from "playwright";
 import validateUrl from "./utils/validateUrl.ts";
 import { readBackgrounds } from "./backgrounds.ts";
 import { readTextColors } from "./textColors.ts";
+import { readBorderColors } from "./borderColors.ts";
 
 export async function printPageBackground() {
   const inputUrl = process.argv[2];
@@ -34,11 +35,13 @@ export async function printPageBackground() {
 
     const backgrounds = await readBackgrounds(page);
     const textColors = await readTextColors(page);
+    const borderColors = await readBorderColors(page);
 
     const result = {
       url: page.url(),
       backgrounds,
-      textColors
+      textColors,
+      borderColors
     };
 
     console.log(JSON.stringify(result, null, 2));

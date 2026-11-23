@@ -127,7 +127,7 @@ getComputedStyle(document.documentElement).getPropertyValue('--primary');
 
 ## Casi difficili
 
-Ogni problema incontrato, con un rimando a [casi-difficili.md](casi-difficili.md).
+Ogni problema incontrato, con un rimando a [casi-difficili.md](../archivio/lab/casi-difficili.md).
 
 ## Tempo impiegato
 

@@ -2,7 +2,7 @@
 
 > Obiettivo: dato un URL, il programma stampa anche **tutti i colori del testo** e **tutti i colori dei bordi** usati nella pagina, in hex, con **quante volte compaiono**. Insieme agli sfondi, completa la palette di colori del design system.
 
-**Prima:** [roadmap-sfondi.md](roadmap-sfondi.md), che conta gli sfondi (`readBackgrounds`, `rgbToHex`).
+**Prima:** [roadmap-sfondi.md](archivio/roadmap-sfondi.md), che conta gli sfondi (`readBackgrounds`, `rgbToHex`).
 **Dopo:** `border-radius` e `font-size`, poi `margin`/`padding`, infine `box-shadow` e `transition`.
 
 ## Cosa costruiamo
@@ -42,14 +42,14 @@ Il metodo è sempre lo stesso: **a mano in Console → regole nel quaderno → r
 
 **Obiettivo:** capire cosa restituisce `getComputedStyle(...).color` per ogni elemento, prima di scrivere codice.
 
-- [ ] Su 2 o 3 siti, in Console, conta il `color` calcolato di **tutti** gli elementi (stesso snippet del Passo B degli sfondi, cambiando la proprietà).
-- [ ] Rifai il conteggio solo sugli elementi che hanno **testo proprio**: almeno un nodo di testo non vuoto tra i figli diretti. *Indizio:* `childNodes`, `nodeType`, `Node.TEXT_NODE`, `trim()`.
-- [ ] Confronta le due tabelle e annota in `docs/lab/` (usa `_modello.md`, nome suggerito `colori-testo-conteggio-grezzo.md`):
+- [x] Su 2 o 3 siti, in Console, conta il `color` calcolato di **tutti** gli elementi (stesso snippet del Passo B degli sfondi, cambiando la proprietà).
+- [x] Rifai il conteggio solo sugli elementi che hanno **testo proprio**: almeno un nodo di testo non vuoto tra i figli diretti. *Indizio:* `childNodes`, `nodeType`, `Node.TEXT_NODE`, `trim()`.
+- [x] Confronta le due tabelle e annota in `docs/lab/` (usa `_modello.md`, nome suggerito `colori-testo-conteggio-grezzo.md`):
   - quanto cambia il conteggio tra "tutti" e "solo con testo proprio", e perché;
   - quali colori spariscono nel secondo conteggio;
   - se compaiono colori semitrasparenti (`rgba(..., 0.6)`): sono molto comuni per il testo secondario;
   - se compaiono testi nascosti (`visibility: hidden`, `opacity: 0`, `display: none`, testo fuori schermo).
-- [ ] Confronta con un sito che conosci: il colore del testo più usato è quello che ti aspettavi?
+- [x] Confronta con un sito che conosci: il colore del testo più usato è quello che ti aspettavi?
 
 **Cosa capire:** `color` è una proprietà **ereditata**. Ogni elemento ha un `color` calcolato, anche un `div` che contiene solo altri `div`: lo ha preso dal genitore. Se conti tutti gli elementi, conti l'ereditarietà, non le scelte del design.
 
@@ -65,13 +65,13 @@ Il metodo è sempre lo stesso: **a mano in Console → regole nel quaderno → r
 
 **Obiettivo:** scrivere nel quaderno cosa si conta e cosa si scarta, **prima** del codice. Sono scelte tue; la roadmap ti dà le domande.
 
-- [ ] **Quando un elemento "ha testo":** solo nodi di testo diretti non vuoti? E il testo dentro un `<input>` o un `placeholder`? Decidi e scrivi, anche se la risposta è "per ora no, limite dichiarato".
-- [ ] **Quando il testo non si vede:** `visibility: hidden`, `opacity: 0`, dimensione zero. Quali controlli servono e quali sono eccessivi per questa fase?
-- [ ] **Testo semitrasparente.** `rgbToHex` oggi restituisce `null` per alfa diverso da 1, quindi `rgba(0, 0, 0, 0.6)` sparirebbe dalla palette. Per gli sfondi era accettabile; per il testo no, perché il grigio del testo secondario è quasi sempre un nero o un bianco con trasparenza. Tre strade, scegline una e scrivi il perché:
+- [x] **Quando un elemento "ha testo":** solo nodi di testo diretti non vuoti? E il testo dentro un `<input>` o un `placeholder`? Decidi e scrivi, anche se la risposta è "per ora no, limite dichiarato".
+- [x] **Quando il testo non si vede:** `visibility: hidden`, `opacity: 0`, dimensione zero. Quali controlli servono e quali sono eccessivi per questa fase?
+- [x] **Testo semitrasparente.** `rgbToHex` oggi restituisce `null` per alfa diverso da 1, quindi `rgba(0, 0, 0, 0.6)` sparirebbe dalla palette. Per gli sfondi era accettabile; per il testo no, perché il grigio del testo secondario è quasi sempre un nero o un bianco con trasparenza. Tre strade, scegline una e scrivi il perché:
   1. scartarli, come ora, e dichiararlo nei limiti;
   2. contarli separatamente, con il loro `rgba(...)` originale e senza hex;
   3. comporli sullo sfondo (la regola del progetto: "la trasparenza va composta sullo sfondo prima di confrontare i colori"). Richiede di sapere qual è lo sfondo dietro il testo: probabilmente è troppo per questa fase.
-- [ ] **`transparent` e `currentcolor`:** per `color` il valore calcolato è sempre un colore concreto, ma controlla in Console cosa restituisce il browser.
+- [x] **`transparent` e `currentcolor`:** per `color` il valore calcolato è sempre un colore concreto, ma controlla in Console cosa restituisce il browser.
 
 **Fatto quando:** nel quaderno c'è una sezione "Regole per il testo" con ogni decisione e un esempio reale.
 
@@ -112,10 +112,10 @@ Il metodo è sempre lo stesso: **a mano in Console → regole nel quaderno → r
 
 **Obiettivo:** capire cosa restituisce `getComputedStyle` per i bordi, che sono quattro (alto, destra, basso, sinistra) e possono avere colori, spessori e stili diversi.
 
-- [ ] In Console, su 2 o 3 siti, per ogni elemento leggi `borderTopColor`, `borderTopWidth` e `borderTopStyle`. Conta i colori prima senza filtri e poi solo dove spessore > 0.
-- [ ] Controlla cosa restituisce il browser per un elemento **senza bordo**: che colore ha, che spessore ha, che stile? *Indizio:* nei DevTools guarda un `div` qualsiasi e cerca `border-top-color` nel pannello Computed.
+- [x] In Console, su 2 o 3 siti, per ogni elemento leggi `borderTopColor`, `borderTopWidth` e `borderTopStyle`. Conta i colori prima senza filtri e poi solo dove spessore > 0.
+- [x] Controlla cosa restituisce il browser per un elemento **senza bordo**: che colore ha, che spessore ha, che stile? *Indizio:* nei DevTools guarda un `div` qualsiasi e cerca `border-top-color` nel pannello Computed.
 - [ ] Controlla un caso con **lati diversi**: per esempio un elemento con solo `border-bottom`. Se leggi soltanto `borderTopColor` cosa perdi?
-- [ ] Annota in `docs/lab/` (nome suggerito `colori-bordo-conteggio-grezzo.md`) cosa osservi.
+- [x] Annota in `docs/lab/` (nome suggerito `colori-bordo-conteggio-grezzo.md`) cosa osservi.
 
 **Cosa capire:** il valore iniziale di `border-color` è `currentcolor`, cioè **il colore del testo**. Un elemento senza bordo ha quindi un `border-color` calcolato uguale al suo `color`. Se non filtri per spessore, la palette dei bordi diventa una copia della palette del testo.
 
@@ -158,10 +158,10 @@ Il metodo è sempre lo stesso: **a mano in Console → regole nel quaderno → r
 
 **Obiettivo:** ora che esistono tre funzioni che fanno lo stesso conteggio, decidere cosa unire. Si fa **dopo** aver scritto la terza, non prima: con due esempi si indovina male cosa hanno in comune, con tre si vede.
 
-- [ ] Confronta `backgrounds.ts`, `textColors.ts` e `borderColors.ts`: cosa è identico (normalizzare in hex, contare, ordinare) e cosa cambia (cosa si raccoglie e come si filtra)?
-- [ ] Estrai la parte identica in una funzione pura, per esempio `countColors(colors)`, in un file dedicato, con i suoi test senza browser. Le tre `read...` diventano: raccolta dalla pagina → filtro → `countColors`.
+- [x] Confronta `backgrounds.ts`, `textColors.ts` e `borderColors.ts`: cosa è identico (normalizzare in hex, contare, ordinare) e cosa cambia (cosa si raccoglie e come si filtra)?
+- [x] Estrai la parte identica in una funzione pura, per esempio `countColors(colors)`, in un file dedicato, con i suoi test senza browser. Le tre `read...` diventano: raccolta dalla pagina → filtro → `countColors`.
 - [ ] `cli.ts`: la funzione `printPageBackground` ora stampa molto più dello sfondo. Valuta se il nome è ancora giusto.
-- [ ] Controlla che `npm test` e `npm run typecheck` passino.
+- [x] Controlla che `npm test` e `npm run typecheck` passino.
 
 **Cosa capire:** si separa ciò che dipende dalla pagina (la raccolta, che si testa con Playwright) da ciò che è logica pura (il conteggio, che si testa in millisecondi). È la stessa divisione tra estrazione e normalizzazione della pipeline.
 
@@ -174,10 +174,10 @@ Il metodo è sempre lo stesso: **a mano in Console → regole nel quaderno → r
 ## Finito quando
 
 - [ ] `docs/lab/` contiene le regole per testo e bordi, con un esempio reale per ciascuna.
-- [ ] `node src/cli.ts <url>` stampa `backgrounds`, `textColors` e `borderColors`, in ordine stabile.
-- [ ] Testo, sfondi e bordi trattano i colori semitrasparenti con la stessa regola.
-- [ ] Il conteggio è condiviso in una funzione pura con i suoi test.
-- [ ] `npm test` passa senza internet.
+- [x] `node src/cli.ts <url>` stampa `backgrounds`, `textColors` e `borderColors`, in ordine stabile.
+- [x] Testo, sfondi e bordi trattano i colori semitrasparenti con la stessa regola.
+- [x] Il conteggio è condiviso in una funzione pura con i suoi test.
+- [x] `npm test` passa senza internet.
 - [ ] Sai rispondere a tutte le domande di verifica senza riaprire il codice.
 
 ## E dopo?

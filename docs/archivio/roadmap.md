@@ -4,7 +4,7 @@
 
 **Ultimo aggiornamento:** 16 novembre 2026 · **Stato:** MVP completato. Il lavoro continua in [roadmap-sfondi.md](roadmap-sfondi.md).
 
-Il piano completo (M0–M6) è archiviato in [archivio/roadmap-completa.md](archivio/roadmap-completa.md). Non serve leggerlo adesso: lo riprendiamo quando l'MVP è finito e ogni sua parte ti è chiara.
+Il piano completo (M0–M6) è archiviato in [roadmap-completa.md](roadmap-completa.md). Non serve leggerlo adesso: lo riprendiamo quando l'MVP è finito e ogni sua parte ti è chiara.
 
 ---
 

@@ -9,7 +9,7 @@
 // - Nothing is copied from the site beyond what is needed: no font or image files, no full
 //   stylesheet text. The payload of every data: URI is cut ("data:font/woff;base64,…").
 //
-// Cases from docs/lab/casi-difficili.md that shaped this file are cited as "M0 Cxx".
+// Cases from docs/archivio/lab/casi-difficili.md that shaped this file are cited as "M0 Cxx".
 
 /** Version of this shape. Bump it on every change, so saved fixtures can be recognized as outdated. */
 export const RAW_FORMAT_VERSION = 1
