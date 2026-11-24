@@ -6,7 +6,8 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 ## Stato attuale
 
-- Fase: **palette di colori**. L'MVP (sfondo del `body`) e la roadmap degli sfondi sono finiti e archiviati. Ora si lavora ai colori del testo e dei bordi: il piano passo per passo è in [docs/roadmap-colori.md](docs/roadmap-colori.md).
+- Fase: **prima versione online**. Il motore conta sfondi, colori del testo e dei bordi (roadmap archiviate). Ora si porta quello che c'è fino a un link pubblico: motore riusabile, endpoint, pagina del report, deploy. Il piano è in [docs/roadmap-prima-versione.md](docs/roadmap-prima-versione.md).
+- Si lavora in verticale: ogni nuova proprietà è finita solo quando si vede nel report. Il quaderno in `docs/lab/` si usa solo per i problemi difficili.
 - Il piano completo (M0–M6) è sospeso e archiviato in [docs/archivio/roadmap-completa.md](docs/archivio/roadmap-completa.md). Le note di M0 in `docs/archivio/lab/` sono state generate con l'AI, non scritte dall'utente.
 - Il codice lo scrive l'utente: Claude spiega, dà indizi e rivede, e dà la soluzione solo se richiesta.
 
@@ -21,7 +22,7 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 - Rispondi in **italiano**.
 - L'utente vuole **capire la logica**, non solo avere codice funzionante. Spiega il perché delle scelte e collega ogni concetto nuovo alla fase della pipeline in cui serve.
-- Procedi a piccoli passi, una milestone alla volta. Prima di implementare qualcosa di non banale, descrivi l'approccio e aspetta conferma.
+- Procedi a piccoli passi, una tappa alla volta. Prima di implementare qualcosa di non banale, descrivi l'approccio e aspetta conferma.
 - Non scrivere grandi blocchi di codice non richiesti.
 
 ## Decisioni di architettura già prese
@@ -57,10 +58,10 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 ## Mappa dei file
 
 - `docs/brief.md`: cos'è il progetto, logica di inferenza, architettura, roadmap.
-- `docs/roadmap-colori.md`: la roadmap attiva (colori del testo e dei bordi).
-- `docs/archivio/`: `roadmap.md` (MVP, finito), `roadmap-sfondi.md` (finito), `roadmap-completa.md` (piano completo, sospeso).
+- `docs/roadmap-prima-versione.md`: la roadmap attiva (dalla CLI al link pubblico).
+- `docs/archivio/`: `roadmap.md` (MVP, finito), `roadmap-sfondi.md` (finito), `roadmap-colori.md` (finito), `roadmap-completa.md` (piano completo, riferimento).
 - `docs/lab/`: quaderno di laboratorio dell'utente (osservazioni e regole per ogni proprietà, per esempio `sfondi-conteggio-grezzo.md`, `colori-testo-conteggio-grezzo.md`) e `_modello.md`.
 - `docs/archivio/lab/`: le note di M0 (`shadcn-ui.md`, `bluesky.md`, `python-org.md`) con il "Risultato atteso" che i test di M3 dovranno verificare, e `casi-difficili.md` (casi e decisioni aperte per M3). Fanno parte del piano sospeso.
 - `engine/`: la pipeline e la CLI; qui gira Playwright con Chromium headless.
 - `client/`: interfaccia web (report).
-- `server/`: API Express che userà l'engine (M4).
+- `server/`: API Express che userà l'engine (Tappa 2 della roadmap attiva).

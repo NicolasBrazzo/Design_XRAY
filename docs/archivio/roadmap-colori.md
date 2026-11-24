@@ -1,8 +1,10 @@
 # Design XRAY: roadmap "colori del testo e dei bordi"
 
+> **Archiviata il 24 novembre 2026.** Il motore conta sfondi, testo e bordi. I punti rimasti aperti sono passati nella Tappa 0 di [roadmap-prima-versione.md](../roadmap-prima-versione.md) oppure non servono più (rename della CLI: Tappa 1; domande di verifica: sostituite dalla spiegazione a voce).
+
 > Obiettivo: dato un URL, il programma stampa anche **tutti i colori del testo** e **tutti i colori dei bordi** usati nella pagina, in hex, con **quante volte compaiono**. Insieme agli sfondi, completa la palette di colori del design system.
 
-**Prima:** [roadmap-sfondi.md](archivio/roadmap-sfondi.md), che conta gli sfondi (`readBackgrounds`, `rgbToHex`).
+**Prima:** [roadmap-sfondi.md](roadmap-sfondi.md), che conta gli sfondi (`readBackgrounds`, `rgbToHex`).
 **Dopo:** `border-radius` e `font-size`, poi `margin`/`padding`, infine `box-shadow` e `transition`.
 
 ## Cosa costruiamo
