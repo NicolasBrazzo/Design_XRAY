@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+/* Neutral UI: the colors on screen that matter are the ones of the analyzed site. */
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-ground: #f2f3f5;
+  --color-ink: #16181d;
+  --color-muted: #5b616e;
+  --color-rule: #d8dbe0;
+  --color-signal: #2b59e8;
+}
+
+@layer base {
+  body {
+    @apply bg-ground font-sans text-ink antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-signal;
+  }
+}
