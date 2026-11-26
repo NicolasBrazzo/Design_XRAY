@@ -27,27 +27,37 @@ URL ──▶ pagina React ──▶ POST /api/analyze ──▶ engine (Playwri
 - [x] Archiviare `roadmap-colori.md`.
 - [ ] Il caso dei bordi con lati diversi (Passo D): se lo hai già gestito nel codice, annota una riga in `docs/lab/colori-bordo-conteggio-grezzo.md`; se no, mettilo tra i limiti noti.
 
-## Tappa 1 · Un motore che si può chiamare
+## Tappa 0b · Fare tuo il commit `33f0d57`
+
+Le tappe 1 e 2, gran parte della 3 e il primo pezzo della 4 sono arrivate in un solo commit scritto da Claude Code. Funziona: prima di costruirci sopra va capito.
+
+- [ ] Leggi un file alla volta: `engine/src/analyze.ts`, `server/index.js`, `server/ssrf.js`, `client/src/api.ts`, poi le pagine. Per ognuno, due righe nel diario con parole tue: cosa fa e perché è fatto così.
+- [ ] Sai rispondere senza riaprire il codice:
+  - perché in `server/index.js` serve il controllo su `res.writableFinished` dentro `res.on('close')`;
+  - perché nel `catch` di `analyzeUrl` il controllo su `signal?.aborted` viene prima degli altri;
+  - cosa non copre `checkPublicUrl`, e perché.
+
+## Tappa 1 · Un motore che si può chiamare *(fatta)*
 
 **Obiettivo:** una funzione `analyzeUrl(url)` esportata da `engine/src/index.ts`, che restituisce il risultato o un errore. La CLI diventa un guscio sottile che la chiama e stampa.
 
-- [ ] Sposta la logica di `printPageBackground` in `analyzeUrl`. La funzione **non stampa e non tocca `process`**: restituisce dati.
-- [ ] Gli errori diventano valori con un codice (`INVALID_URL`, `PAGE_ERROR`, `NOT_FOUND`, `TIMEOUT`, ...), non messaggi in console. Sarà il server a tradurli in stati HTTP e la pagina in testi per l'utente.
-- [ ] Rinomina quello che resta in `cli.ts`: stampa molto più dello sfondo.
-- [ ] I test esistenti passano. Aggiungi un test su un URL non valido, che non apre il browser.
+- [x] Sposta la logica di `printPageBackground` in `analyzeUrl`. La funzione **non stampa e non tocca `process`**: restituisce dati.
+- [x] Gli errori diventano valori con un codice (`INVALID_URL`, `PAGE_ERROR`, `NOT_FOUND`, `TIMEOUT`, ...), non messaggi in console. Sarà il server a tradurli in stati HTTP e la pagina in testi per l'utente.
+- [x] Rinomina quello che resta in `cli.ts`: stampa molto più dello sfondo.
+- [x] I test esistenti passano. Aggiungi un test su un URL non valido, che non apre il browser.
 
 **Cosa capire:** è la regola del brief "motore separato dall'interfaccia". Una funzione che stampa può usarla solo un terminale; una che restituisce dati la usano CLI, API e test.
 
 **Fatto quando:** `node src/cli.ts <url>` stampa lo stesso JSON di prima, ma passando da `analyzeUrl`.
 
-## Tappa 2 · L'endpoint
+## Tappa 2 · L'endpoint *(fatta)*
 
 **Obiettivo:** `POST /api/analyze` con `{ "url": "..." }` in `server/index.js`.
 
-- [ ] Il server importa `analyzeUrl` dal motore. *Indizio:* Node ≥ 22.18 esegue i `.ts` anche se importati da un `.js`, e Playwright viene risolto da `engine/node_modules`.
-- [ ] Traduci i codici di errore in stati HTTP: 400 URL non valido, 502 la pagina ha risposto con un errore, 504 timeout.
-- [ ] Proxy di Vite: `/api` verso `http://localhost:3000`, così il client in sviluppo chiama lo stesso indirizzo che userà online.
-- [ ] Provalo con `curl` prima di avere una pagina.
+- [x] Il server importa `analyzeUrl` dal motore. *Indizio:* Node ≥ 22.18 esegue i `.ts` anche se importati da un `.js`, e Playwright viene risolto da `engine/node_modules`.
+- [x] Traduci i codici di errore in stati HTTP: 400 URL non valido, 502 la pagina ha risposto con un errore, 504 timeout.
+- [x] Proxy di Vite: `/api` verso `http://localhost:3000`, così il client in sviluppo chiama lo stesso indirizzo che userà online.
+- [x] Provalo con `curl` prima di avere una pagina.
 
 **Cosa capire:** un'analisi dura qualche secondo e apre un browser. Per ora una richiesta = un browser, ed è accettabile. Coda di lavori e browser condiviso sono il problema di system design per dopo: annota qui sotto come lo faresti, senza scriverlo.
 
@@ -57,10 +67,13 @@ URL ──▶ pagina React ──▶ POST /api/analyze ──▶ engine (Playwri
 
 **Obiettivo:** la parte tua. Campo URL, analisi, tre palette di campioni con hex e conteggio.
 
-- [ ] **Prima il design, su carta.** Quattro stati: vuoto, caricamento (5-20 secondi, quindi va pensato), errore, risultato. Almeno tre disposizioni diverse per il risultato, poi scegli. Manda una foto per una critica, non per farti disegnare la pagina.
-- [ ] Poi React e Tailwind: un componente per il campione, uno per la palette, uno per il form.
+**Stato:** la pagina funziona (ricerca, risultati, copia dell'hex), ma il design l'ha deciso Claude Code. Il codice resta; lo stile lo rifai tu partendo dalla carta.
+
+- [ ] **Il design, su carta.** Quattro stati: vuoto, caricamento (5-20 secondi, quindi va pensato), errore, risultato. Almeno tre disposizioni diverse per il risultato, poi scegli. Manda una foto per una critica, non per farti disegnare la pagina.
+- [x] React e Tailwind: componenti per il form, la palette e il campione.
+- [ ] Applica il tuo design ai componenti esistenti: font, colori, disposizione.
 - [ ] Mostra in pagina i limiti noti, in una riga: "conta gli elementi, non l'area occupata", "i colori semitrasparenti sono esclusi".
-- [ ] Una sola interazione in più, se vuoi: copiare l'hex con un clic.
+- [x] Una sola interazione in più: copiare l'hex con un clic.
 
 **Fatto quando:** da `npm run dev` analizzi un sito e il risultato ti sembra fatto da te, non da un template.
 
@@ -71,9 +84,11 @@ URL ──▶ pagina React ──▶ POST /api/analyze ──▶ engine (Playwri
 - [ ] Express serve `client/dist` come file statici.
 - [ ] Un `Dockerfile` basato sull'immagine ufficiale di Playwright, che ha già Chromium e le sue dipendenze.
 - [ ] **Protezioni minime, prima di pubblicare il link:**
-  - blocca gli indirizzi interni dopo aver risolto il dominio: localhost, reti private, `169.254.169.254` (SSRF, vedi i vincoli in `CLAUDE.md`);
-  - timeout sull'analisi;
-  - limite di richieste per IP e al massimo un paio di analisi contemporanee.
+  - [x] blocca gli indirizzi interni dopo aver risolto il dominio: localhost, reti private, `169.254.169.254` (SSRF, vedi i vincoli in `CLAUDE.md`). Fatto in `server/ssrf.js`;
+  - [ ] **lo stesso controllo dentro il browser**, con `page.route` nel motore: oggi una pagina pubblica può fare un redirect verso un indirizzo interno o caricarne una risorsa. Questo lo scrivi tu;
+  - [x] timeout sull'analisi (quello di `page.goto`, 30 secondi);
+  - [x] al massimo due analisi contemporanee;
+  - [ ] limite di richieste per IP.
 - [ ] Chiudi nel brief la decisione aperta "Dove pubblicare la demo?".
 
 **Cosa capire:** il tuo server apre un URL scelto da uno sconosciuto. Senza il blocco degli indirizzi interni, chiunque può fargli leggere servizi che non dovrebbero essere raggiungibili da fuori.

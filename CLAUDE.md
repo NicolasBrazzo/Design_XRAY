@@ -6,7 +6,7 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 ## Stato attuale
 
-- Fase: **prima versione online**. Il motore conta sfondi, colori del testo e dei bordi (roadmap archiviate). Ora si porta quello che c'è fino a un link pubblico: motore riusabile, endpoint, pagina del report, deploy. Il piano è in [docs/roadmap-prima-versione.md](docs/roadmap-prima-versione.md).
+- Fase: **prima versione online**. Il motore conta sfondi, colori del testo e dei bordi (roadmap archiviate). Motore riusabile (`analyzeUrl`), endpoint `POST /api/analyze` e pagina dei risultati esistono già; mancano il design della pagina, il controllo SSRF dentro il browser e il deploy. Il piano è in [docs/roadmap-prima-versione.md](docs/roadmap-prima-versione.md).
 - Si lavora in verticale: ogni nuova proprietà è finita solo quando si vede nel report. Il quaderno in `docs/lab/` si usa solo per i problemi difficili.
 - Il piano completo (M0–M6) è sospeso e archiviato in [docs/archivio/roadmap-completa.md](docs/archivio/roadmap-completa.md). Le note di M0 in `docs/archivio/lab/` sono state generate con l'AI, non scritte dall'utente.
 - Il codice lo scrive l'utente: Claude spiega, dà indizi e rivede, e dà la soluzione solo se richiesta.
@@ -64,4 +64,4 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 - `docs/archivio/lab/`: le note di M0 (`shadcn-ui.md`, `bluesky.md`, `python-org.md`) con il "Risultato atteso" che i test di M3 dovranno verificare, e `casi-difficili.md` (casi e decisioni aperte per M3). Fanno parte del piano sospeso.
 - `engine/`: la pipeline e la CLI; qui gira Playwright con Chromium headless.
 - `client/`: interfaccia web (report).
-- `server/`: API Express che userà l'engine (Tappa 2 della roadmap attiva).
+- `server/`: API Express che usa l'engine (`POST /api/analyze`) e il primo controllo SSRF (`ssrf.js`).
