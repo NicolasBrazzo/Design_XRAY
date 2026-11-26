@@ -8,7 +8,7 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 - Fase: **prima versione online**. Il motore conta sfondi, colori del testo e dei bordi (roadmap archiviate). Motore riusabile (`analyzeUrl`), endpoint `POST /api/analyze` e pagina dei risultati esistono già; mancano il design della pagina, il controllo SSRF dentro il browser e il deploy. Il piano è in [docs/roadmap-prima-versione.md](docs/roadmap-prima-versione.md).
 - Si lavora in verticale: ogni nuova proprietà è finita solo quando si vede nel report. Il quaderno in `docs/lab/` si usa solo per i problemi difficili.
-- Il piano completo (M0–M6) è sospeso e archiviato in [docs/archivio/roadmap-completa.md](docs/archivio/roadmap-completa.md). Le note di M0 in `docs/archivio/lab/` sono state generate con l'AI, non scritte dall'utente.
+- Le roadmap finite, il piano completo (M0–M6) e le note di M0 generate con l'AI sono stati rimossi: restano nella cronologia di git. La logica del progetto è in `docs/brief.md`.
 - Il codice lo scrive l'utente: Claude spiega, dà indizi e rivede, e dà la soluzione solo se richiesta.
 
 ## Comandi
@@ -59,9 +59,8 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 
 - `docs/brief.md`: cos'è il progetto, logica di inferenza, architettura, roadmap.
 - `docs/roadmap-prima-versione.md`: la roadmap attiva (dalla CLI al link pubblico).
-- `docs/archivio/`: `roadmap.md` (MVP, finito), `roadmap-sfondi.md` (finito), `roadmap-colori.md` (finito), `roadmap-completa.md` (piano completo, riferimento).
-- `docs/lab/`: quaderno di laboratorio dell'utente (osservazioni e regole per ogni proprietà, per esempio `sfondi-conteggio-grezzo.md`, `colori-testo-conteggio-grezzo.md`) e `_modello.md`.
-- `docs/archivio/lab/`: le note di M0 (`shadcn-ui.md`, `bluesky.md`, `python-org.md`) con il "Risultato atteso" che i test di M3 dovranno verificare, e `casi-difficili.md` (casi e decisioni aperte per M3). Fanno parte del piano sospeso.
+- `docs/lab/`: quaderno di laboratorio dell'utente (osservazioni e regole per ogni proprietà, per esempio `sfondi-conteggio-grezzo.md`, `colori-testo-conteggio-grezzo.md`).
+- `docs/da-sistemare.md`: cose notate durante il lavoro, da riprendere più avanti.
 - `engine/`: la pipeline e la CLI; qui gira Playwright con Chromium headless.
 - `client/`: interfaccia web (report).
 - `server/`: API Express che usa l'engine (`POST /api/analyze`) e il primo controllo SSRF (`ssrf.js`).

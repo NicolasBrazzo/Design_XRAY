@@ -2,7 +2,7 @@
 
 > Obiettivo: un link pubblico dove incolli un URL e vedi la palette del sito (sfondi, testo, bordi) con i conteggi. Solo colori, ma finito: online, usato su un sito vero, con un README.
 
-**Prima:** [roadmap-colori.md](archivio/roadmap-colori.md), che ha portato il motore a contare sfondi, testo e bordi.
+**Prima:** la roadmap dei colori, che ha portato il motore a contare sfondi, testo e bordi.
 **Dopo:** una proprietà alla volta, portata ogni volta fino al report (vedi "E dopo?").
 
 ## Perché cambia l'ordine
@@ -24,7 +24,7 @@ URL ──▶ pagina React ──▶ POST /api/analyze ──▶ engine (Playwri
 
 ## Tappa 0 · Chiudere i colori (10 minuti)
 
-- [x] Archiviare `roadmap-colori.md`.
+- [x] Togliere le roadmap finite.
 - [ ] Il caso dei bordi con lati diversi (Passo D): se lo hai già gestito nel codice, annota una riga in `docs/lab/colori-bordo-conteggio-grezzo.md`; se no, mettilo tra i limiti noti.
 
 ## Tappa 0b · Fare tuo il commit `33f0d57`
@@ -117,4 +117,4 @@ Una proprietà alla volta, e **ogni proprietà è finita solo quando si vede nel
 3. Spaziature: `margin`, `padding`, `gap`.
 4. Raggruppamento dei colori simili in OKLCH: qui torna utile il quaderno.
 
-Il piano completo resta in [roadmap-completa.md](archivio/roadmap-completa.md) come riferimento, non come scaletta.
+Il piano completo (M0–M6) non è più nel repo: la logica del progetto resta in [brief.md](brief.md).
