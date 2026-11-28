@@ -32,7 +32,7 @@ Array(4) [ "rgb(237, 235, 230)", "0px", "solid", "rgb(237, 235, 230)" ]
 |---|---|---|
 | 1 | **Un lato conta se il suo spessore è maggiore di 0.** Lo stile non si guarda: un elemento senza bordo ha stile `solid` e spessore `0px`. | `["rgb(237, 235, 230)", "0px", "solid", ...]`: senza bordo, ma stile `solid` |
 | 2 | **Un elemento senza bordo si scarta**, anche se ha un `border-color` calcolato: è `currentcolor`, cioè uguale al `color`. | `border-top-color` = `color` = `rgb(237, 235, 230)` (142 elementi) |
-| 3 | **Un elemento conta una volta per ogni colore distinto dei suoi lati visibili.** Bordo uniforme (4 lati dello stesso colore) = 1. Lati con colori diversi = un conteggio per ciascun colore. | da trovare con la prova 3 |
+| 3 | **Un elemento conta una volta per ogni colore distinto dei suoi lati visibili.** Bordo uniforme (4 lati dello stesso colore) = 1. Lati con colori diversi = un conteggio per ciascun colore. | verificata con una pagina sintetica: test `sides with different colors give one count per distinct color` in `engine/test/borderColors.test.ts` |
 | 4 | **Alfa 0 si scarta.** | `rgba(0, 0, 0, 0)`: 1 elemento |
 | 5 | **Alfa tra 0 e 1: si scarta**, come per sfondi e testo (stessa regola per le tre proprietà). | `rgba(237, 235, 230, 0.16)` ×8, `rgba(237, 235, 230, 0.08)` ×7 |
 | 6 | **Formato diverso da `rgb(...)` (per esempio `oklab`): si scarta.** `rgbToHex` restituisce `null`. | `oklab(0.94 ... / 0.9)`: 2 elementi |
@@ -46,6 +46,4 @@ Array(4) [ "rgb(237, 235, 230)", "0px", "solid", "rgb(237, 235, 230)" ]
 
 ## Ancora da fare
 
-- Prova 3 (lati diversi), con un esempio reale per la regola 3.
 - Completare i conteggi della seconda tabella (manca quello di `rgb(255, 210, 63)`) e i totali.
-- ~~Decidere la regola 3: bordo uniforme = 1 o 4?~~ Deciso: 1.

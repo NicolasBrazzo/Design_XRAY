@@ -13,7 +13,7 @@ export class ApiError extends Error {
 
 const SERVER_DOWN = new ApiError(
   'SERVER_DOWN',
-  'Il server non risponde. Controlla che sia avviato: npm run dev nella cartella server/',
+  'The server is not answering. Try again in a moment.',
 )
 
 export async function analyze(url: string, signal?: AbortSignal): Promise<AnalyzeResult> {

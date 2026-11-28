@@ -4,9 +4,12 @@ import { readBackgrounds } from "./backgrounds.ts";
 import { readTextColors } from "./textColors.ts";
 import { readBorderColors } from "./borderColors.ts";
 import type { ColorCount } from "./calculateColors.ts";
+import { isPublicAddress, type AddressPolicy } from "./network/addresses.ts";
+import { startGuardProxy, type GuardProxy } from "./network/guardProxy.ts";
 
 export type AnalyzeErrorCode =
   | "INVALID_URL"
+  | "BLOCKED_URL"
   | "NAME_NOT_RESOLVED"
   | "HTTP_ERROR"
   | "TIMEOUT"
@@ -36,41 +39,64 @@ export interface AnalyzeResult {
 export interface AnalyzeOptions {
   /** Aborting closes the browser: the analysis stops and rejects with code ABORTED. */
   signal?: AbortSignal;
+  /**
+   * Which addresses the browser may connect to, checked on every request (redirects and
+   * sub-resources included). Default: public internet only. Tests pass a looser policy.
+   */
+  isAllowedAddress?: AddressPolicy;
 }
 
 export async function analyzeUrl(
   inputUrl: string,
-  { signal }: AnalyzeOptions = {},
+  { signal, isAllowedAddress = isPublicAddress }: AnalyzeOptions = {},
 ): Promise<AnalyzeResult> {
   const validation = validateUrl(inputUrl);
 
   if (!validation.result) {
-    throw new AnalyzeError("INVALID_URL", validation.error ?? "URL non valido");
+    throw new AnalyzeError("INVALID_URL", validation.error ?? "Invalid URL");
   }
 
   if (signal?.aborted) throw abortedError();
 
   let browser: Browser | undefined;
+  let proxy: GuardProxy | undefined;
+  // URL of the last navigation of the main frame: after a redirect it is the target.
+  let navigationUrl = inputUrl;
   // Closing the browser makes the pending Playwright call reject: that is how we stop midway.
   const onAbort = () => void browser?.close();
   signal?.addEventListener("abort", onAbort, { once: true });
 
   try {
-    browser = await chromium.launch();
+    proxy = await startGuardProxy(isAllowedAddress);
+    browser = await chromium.launch({
+      proxy: { server: proxy.server },
+      args: [
+        // Chromium sends localhost straight to the network by default: through the proxy too.
+        "--proxy-bypass-list=<-loopback>",
+        // WebRTC can open UDP connections that skip the proxy.
+        "--force-webrtc-ip-handling-policy=disable_non_proxied_udp",
+      ],
+    });
     // Aborted while launching: onAbort ran when there was no browser to close yet.
     if (signal?.aborted) throw abortedError();
 
     const page = await browser.newPage();
+    page.on("request", (request) => {
+      if (request.isNavigationRequest() && request.frame() === page.mainFrame()) {
+        navigationUrl = request.url();
+      }
+    });
     const response = await page.goto(inputUrl);
 
     if (response === null) {
-      throw new AnalyzeError("HTTP_ERROR", "Il sito non ha restituito nessuna pagina");
+      throw new AnalyzeError("HTTP_ERROR", "The site returned no page");
     }
 
     if (!response.ok()) {
+      throwIfRefusedByProxy(proxy, navigationUrl);
       throw new AnalyzeError(
         "HTTP_ERROR",
-        `Il sito ha risposto con HTTP ${response.status()}`,
+        `The site answered with HTTP ${response.status()}`,
       );
     }
 
@@ -86,8 +112,10 @@ export async function analyzeUrl(
 
     if (error instanceof AnalyzeError) throw error;
 
+    if (proxy) throwIfRefusedByProxy(proxy, navigationUrl);
+
     if (error instanceof errors.TimeoutError) {
-      throw new AnalyzeError("TIMEOUT", "Il sito ha impiegato più di 30 secondi a caricarsi");
+      throw new AnalyzeError("TIMEOUT", "The page took more than 30 seconds to load");
     }
 
     const message: string = error?.message ?? String(error);
@@ -95,14 +123,14 @@ export async function analyzeUrl(
     if (message.includes("ERR_NAME_NOT_RESOLVED")) {
       throw new AnalyzeError(
         "NAME_NOT_RESOLVED",
-        "Dominio non trovato: controlla di averlo scritto bene",
+        "Domain not found: check the spelling",
       );
     }
 
     if (message.includes("Executable doesn't exist")) {
       throw new AnalyzeError(
         "BROWSER_MISSING",
-        "Chromium non trovato. Installalo con: npx playwright install chromium",
+        "Chromium not found. Install it with: npx playwright install chromium",
       );
     }
 
@@ -110,9 +138,27 @@ export async function analyzeUrl(
   } finally {
     signal?.removeEventListener("abort", onAbort);
     await browser?.close();
+    await proxy?.close();
+  }
+}
+
+/** The proxy refused the page itself (not a sub-resource): say why instead of a generic error. */
+function throwIfRefusedByProxy(proxy: GuardProxy, url: string) {
+  const failure = proxy.failureFor(url);
+  if (failure === "BLOCKED_URL") {
+    throw new AnalyzeError(
+      "BLOCKED_URL",
+      "This address points to an internal network: only public websites can be analyzed",
+    );
+  }
+  if (failure === "NAME_NOT_RESOLVED") {
+    throw new AnalyzeError(
+      "NAME_NOT_RESOLVED",
+      "Domain not found: check the spelling",
+    );
   }
 }
 
 function abortedError() {
-  return new AnalyzeError("ABORTED", "Analisi annullata");
+  return new AnalyzeError("ABORTED", "Analysis cancelled");
 }

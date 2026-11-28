@@ -2,7 +2,7 @@
 
 > Dato l'URL di un sito pubblico, Design XRAY ne fa una "radiografia" e ricostruisce il suo design system: colori, tipografia, spaziature, forme, ombre, animazioni e breakpoint, organizzati come design token pronti da usare.
 
-**Stato:** progettazione · **Ultimo aggiornamento:** 11 novembre 2026
+**Stato:** prima versione (palette di sfondi, testo e bordi) pronta per la pubblicazione · **Ultimo aggiornamento:** 28 novembre 2026
 
 ---
 
@@ -261,18 +261,19 @@ Ogni token si può aprire per vedere le prove: dove è usato e con che confidenz
 - **API:** server che esegue l'engine (con Chromium headless), con tempo massimo, cache dei risultati e protezione contro gli URL di reti interne (SSRF).
 - **web app:** l'interfaccia del report.
 
-### Struttura delle cartelle prevista
-
-Si parte solo con `engine`; il resto arriva con le milestone successive.
+### Struttura delle cartelle
 
 ```
 Design_XRAY/
 ├── CLAUDE.md
+├── README.md
+├── Dockerfile      un solo servizio: API + client compilato
 ├── docs/
 │   ├── brief.md
 │   └── lab/        quaderno di laboratorio (analisi manuali)
-├── engine/         pipeline + CLI
-└── web/            report web + API
+├── engine/         pipeline + CLI (+ proxy SSRF in src/network/)
+├── server/         API Express
+└── client/         report web (React)
 ```
 
 ## 11. Stack
@@ -284,8 +285,8 @@ Design_XRAY/
 | Browser | Playwright (libreria, non test runner) | Controlla un browser vero e attende da solo che la pagina sia pronta |
 | Parsing CSS | css-tree | Legge i fogli di stile scaricati dalla rete |
 | Colori | culori | OKLCH, Delta E, conversioni tra formati |
-| Frontend | da decidere | Next.js o SvelteKit |
-| Hosting | da decidere | Serve un server che possa eseguire Chromium (es. Railway, Render, Fly.io) |
+| Frontend | React + Vite + Tailwind v4 | Basta una SPA: niente rendering lato server, il lavoro pesante lo fa l'API |
+| Hosting | Railway, con il Dockerfile | Serve un server che esegua Chromium; Railway non va in pausa, quindi chi apre il link dal portfolio non aspetta l'avvio |
 
 ## 12. Roadmap
 
@@ -310,10 +311,13 @@ Le note di M0 sono il **termine di paragone** per M3: quello che hai trovato a m
 
 ## 14. Decisioni aperte
 
-- Framework frontend: Next.js o SvelteKit?
-- Dove pubblicare la demo?
 - Formato colore predefinito negli export: hex o OKLCH?
-- Lingua dell'interfaccia e della documentazione pubblica: italiano o inglese (per un portfolio internazionale)?
+
+Decise il 28 novembre 2026:
+
+- **Framework frontend:** React + Vite (non Next.js o SvelteKit).
+- **Dove pubblicare la demo:** Railway, un solo servizio Docker basato sull'immagine ufficiale di Playwright.
+- **Lingua:** interfaccia e README in inglese, per un portfolio internazionale. I documenti di lavoro in `docs/` restano in italiano.
 
 ## 15. Glossario
 

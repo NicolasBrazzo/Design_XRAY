@@ -1,7 +1,7 @@
 import { useState, type SubmitEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// The sites studied in M0 (docs/archivio/lab/).
+// Three very different sites: CSS variables, a React app, a classic hand-made site.
 const EXAMPLES = ['python.org', 'bsky.app', 'ui.shadcn.com']
 
 /** "python.org" → "https://python.org/". Returns null if the input is not an http(s) address. */
@@ -27,7 +27,7 @@ export default function SearchWebsite() {
   function analyze(value: string) {
     const url = toUrl(value)
     if (url === null) {
-      setError("Scrivi l'indirizzo di una pagina, come python.org o https://python.org")
+      setError('Enter the address of a web page, like python.org or https://python.org')
       return
     }
     // The URL goes in the query string: the results page can be reloaded and shared.
@@ -40,20 +40,20 @@ export default function SearchWebsite() {
   }
 
   return (
-    <main className="pt-[10vh]">
-      <h1 className="max-w-xl text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">
-        Quali colori usa questo sito?
+    <main className="pt-[12vh]">
+      <h1 className="max-w-3xl text-5xl leading-[1.02] font-bold tracking-[-0.035em] text-balance sm:text-7xl">
+        What colors is this website made of?
       </h1>
-      <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted">
-        Incolla l'indirizzo di una pagina pubblica. La apro in un browser e conto i colori di
-        sfondi, testi e bordi di ogni elemento visibile.
+      <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+        Paste the address of a public page. Design XRAY opens it in a real browser and counts the
+        background, text and border colors of every visible element.
       </p>
 
-      <form onSubmit={handleSubmit} noValidate className="mt-12">
+      <form onSubmit={handleSubmit} noValidate className="mt-14 max-w-3xl">
         <label htmlFor="url" className="sr-only">
-          Indirizzo della pagina
+          Page address
         </label>
-        <div className="flex items-center gap-4 border-b-2 border-ink transition-colors focus-within:border-signal">
+        <div className="flex items-center gap-3 rounded-lg bg-paper p-2 ring-1 ring-rule transition-shadow focus-within:ring-2 focus-within:ring-ink">
           <input
             id="url"
             type="text"
@@ -70,27 +70,27 @@ export default function SearchWebsite() {
             }}
             aria-invalid={error !== null}
             aria-describedby={error ? 'url-error' : undefined}
-            className="min-w-0 flex-1 bg-transparent py-3 text-2xl placeholder:text-muted/40 focus:outline-none sm:text-3xl"
+            className="min-w-0 flex-1 bg-transparent px-3 py-2 text-xl placeholder:text-muted/50 focus:outline-none sm:text-2xl"
           />
           <button
             type="submit"
-            className="shrink-0 rounded-md bg-ink px-5 py-2.5 font-medium text-white transition-colors hover:bg-signal"
+            className="shrink-0 rounded-md bg-ink px-5 py-3 font-semibold text-paper transition-opacity hover:opacity-85"
           >
-            Analizza
+            Analyze
           </button>
         </div>
         {error && (
-          <p id="url-error" className="mt-3 text-sm text-red-700">
+          <p id="url-error" className="mt-3 text-sm text-alarm">
             {error}
           </p>
         )}
       </form>
 
-      <p className="mt-8 text-muted">
-        Prova con{' '}
+      <p className="mt-6 text-muted">
+        Or try{' '}
         {EXAMPLES.map((example, i) => (
           <span key={example}>
-            {i > 0 && (i === EXAMPLES.length - 1 ? ' o ' : ', ')}
+            {i > 0 && (i === EXAMPLES.length - 1 ? ' or ' : ', ')}
             <button
               type="button"
               onClick={() => analyze(example)}

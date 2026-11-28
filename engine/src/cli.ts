@@ -5,7 +5,7 @@ export async function main() {
 
   if (inputUrl === undefined) {
     process.exitCode = 1;
-    return console.error("Manca l'URL. Uso: node src/cli.ts <url>");
+    return console.error("Missing URL. Usage: node src/cli.ts <url>");
   }
 
   try {

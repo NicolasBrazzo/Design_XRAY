@@ -1,0 +1,8 @@
+**/node_modules
+client/dist
+.git
+.vscode
+.claude
+docs
+**/*.log
+**/.env

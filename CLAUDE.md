@@ -6,10 +6,10 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 
 ## Stato attuale
 
-- Fase: **prima versione online**. Il motore conta sfondi, colori del testo e dei bordi (roadmap archiviate). Motore riusabile (`analyzeUrl`), endpoint `POST /api/analyze` e pagina dei risultati esistono già; mancano il design della pagina, il controllo SSRF dentro il browser e il deploy. Il piano è in [docs/roadmap-prima-versione.md](docs/roadmap-prima-versione.md).
+- Fase: **prima versione online**. Fatti: conteggio di sfondi, testo e bordi, `analyzeUrl`, `POST /api/analyze` con limite per IP, proxy SSRF dentro il browser, design della pagina (in inglese), Dockerfile, README. Mancano il deploy su Railway e la prova sul sito di Futura. I passi sono in [docs/checklist-conclusione.md](docs/checklist-conclusione.md).
 - Si lavora in verticale: ogni nuova proprietà è finita solo quando si vede nel report. Il quaderno in `docs/lab/` si usa solo per i problemi difficili.
 - Le roadmap finite, il piano completo (M0–M6) e le note di M0 generate con l'AI sono stati rimossi: restano nella cronologia di git. La logica del progetto è in `docs/brief.md`.
-- Il codice lo scrive l'utente: Claude spiega, dà indizi e rivede, e dà la soluzione solo se richiesta.
+- Dal 28 novembre 2026 il codice lo scrive Claude: l'utente ha capito le basi e vuole chiudere in fretta la prima versione per passare al prossimo progetto. L'utente decide e rivede; il quaderno e le verifiche a voce non servono più.
 
 ## Comandi
 
@@ -17,13 +17,13 @@ Il progetto completo (logica, pipeline, roadmap) è in [docs/brief.md](docs/brie
 - `client/`: `npm run dev` (Vite, http://localhost:5173), `npm run build`, `npm run lint` (oxlint).
 - `server/`: `npm run dev` (Express con `node --watch`, http://localhost:3000), `npm start`.
 - Browser per Playwright: `npx playwright install chromium` (da `engine/`, serve dopo un'installazione pulita).
+- Docker: `docker build -t design-xray .` e `docker run --rm -p 3000:3000 design-xray` dalla radice. La versione dell'immagine Playwright nel `Dockerfile` deve restare uguale a quella del pacchetto `playwright` in `engine/`.
 
 ## Come lavorare con l'utente
 
 - Rispondi in **italiano**.
-- L'utente vuole **capire la logica**, non solo avere codice funzionante. Spiega il perché delle scelte e collega ogni concetto nuovo alla fase della pipeline in cui serve.
-- Procedi a piccoli passi, una tappa alla volta. Prima di implementare qualcosa di non banale, descrivi l'approccio e aspetta conferma.
-- Non scrivere grandi blocchi di codice non richiesti.
+- Obiettivo attuale: chiudere in fretta la prima versione seguendo [docs/checklist-conclusione.md](docs/checklist-conclusione.md). Claude implementa direttamente e spiega in breve cosa ha cambiato e perché.
+- Chiedi all'utente solo le decisioni che sono sue: hosting, gusto del design, lingua del README. Si lavora su `main` e non si fanno commit: li fa l'utente.
 
 ## Decisioni di architettura già prese
 
@@ -40,7 +40,7 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 - **engine:** TypeScript eseguito direttamente da Node (i tipi vengono cancellati, `tsc` serve solo a controllarli; `erasableSyntaxOnly` e `verbatimModuleSyntax` attivi), Playwright, test con `node:test`.
 - **client:** React + TypeScript (Vite), React Router, Tailwind v4 (plugin `@tailwindcss/vite`, nessun `tailwind.config.js`).
 - **server:** Node + Express 5 (ES module).
-- Hosting non ancora deciso: vedi "Decisioni aperte" nel brief.
+- **Hosting:** Railway, un solo servizio Docker (`Dockerfile` nella radice) basato sull'immagine ufficiale di Playwright: Express serve l'API e `client/dist`.
 
 ## Convenzioni
 
@@ -64,4 +64,5 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 - `docs/da-sistemare.md`: cose notate durante il lavoro, da riprendere più avanti.
 - `engine/`: la pipeline e la CLI; qui gira Playwright con Chromium headless.
 - `client/`: interfaccia web (report).
-- `server/`: API Express che usa l'engine (`POST /api/analyze`) e il primo controllo SSRF (`ssrf.js`).
+- `server/`: API Express che usa l'engine (`POST /api/analyze`), il primo controllo SSRF (`ssrf.js`), il limite per IP (`rateLimit.js`) e serve `client/dist`.
+- `engine/src/network/`: lista degli indirizzi interni (`addresses.ts`) e proxy che filtra ogni richiesta di Chromium (`guardProxy.ts`).

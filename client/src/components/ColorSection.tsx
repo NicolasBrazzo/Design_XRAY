@@ -1,62 +1,50 @@
 import { useEffect, useId, useState } from 'react'
 import type { ColorCount } from '../types.ts'
 
-const percent = new Intl.NumberFormat('it-IT', { style: 'percent', maximumFractionDigits: 1 })
-const integer = new Intl.NumberFormat('it-IT')
+const percent = new Intl.NumberFormat('en-US', { style: 'percent', maximumFractionDigits: 1 })
+const integer = new Intl.NumberFormat('en-US')
 
 interface Props {
   title: string
   colors: ColorCount[]
+  /** What one count is, singular: "element", "border"... */
+  unit: string
   emptyText: string
 }
 
-export default function ColorSection({ title, colors, emptyText }: Props) {
+export default function ColorSection({ title, colors, unit, emptyText }: Props) {
   const headingId = useId()
   // Sum of the counts. For borders it can exceed the number of elements: an element whose sides
   // have different colors counts once per color. So the share is "of the occurrences".
   const total = colors.reduce((sum, color) => sum + color.count, 0)
 
   return (
-    <section aria-labelledby={headingId} className="mt-14">
-      <div className="flex items-baseline justify-between gap-4 border-b border-rule pb-3">
-        <h2 id={headingId} className="text-xl font-semibold">
+    <section aria-labelledby={headingId} className="mt-16">
+      <div className="flex items-baseline justify-between gap-4 border-b border-ink pb-3">
+        <h2 id={headingId} className="text-2xl font-bold tracking-tight">
           {title}
         </h2>
         {colors.length > 0 && (
           <p className="text-sm text-muted tabular-nums">
-            {colors.length} {colors.length === 1 ? 'colore' : 'colori'}
+            {colors.length} {colors.length === 1 ? 'color' : 'colors'}
           </p>
         )}
       </div>
 
       {colors.length === 0 ? (
-        <p className="mt-4 text-muted">{emptyText}</p>
+        <p className="mt-5 text-muted">{emptyText}</p>
       ) : (
-        <>
-          {/* Each color is as wide as its count: the palette at a glance. The list below says the same in words. */}
-          <div aria-hidden className="mt-5 flex h-16 overflow-hidden rounded-md ring-1 ring-black/10">
-            {colors.map((color) => (
-              <div
-                key={color.hex}
-                title={color.hex}
-                className="min-w-0.5 basis-0"
-                style={{ flexGrow: color.count, backgroundColor: color.hex }}
-              />
-            ))}
-          </div>
-
-          <ul className="mt-3">
-            {colors.map((color) => (
-              <ColorRow key={color.hex} color={color} share={color.count / total} />
-            ))}
-          </ul>
-        </>
+        <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4 lg:grid-cols-6">
+          {colors.map((color) => (
+            <Swatch key={color.hex} color={color} share={color.count / total} unit={unit} />
+          ))}
+        </ul>
       )}
     </section>
   )
 }
 
-function ColorRow({ color, share }: { color: ColorCount; share: number }) {
+function Swatch({ color, share, unit }: { color: ColorCount; share: number; unit: string }) {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -75,30 +63,31 @@ function ColorRow({ color, share }: { color: ColorCount; share: number }) {
   }
 
   return (
-    <li className="grid grid-cols-[2.5rem_1fr_auto_4rem] items-center gap-4 border-b border-rule/60 py-2.5">
-      <span
-        aria-hidden
-        className="size-10 rounded ring-1 ring-black/10 ring-inset"
-        style={{ backgroundColor: color.hex }}
-      />
-      <span className="flex items-baseline gap-3">
-        <button
-          type="button"
-          onClick={copy}
-          title="Copia"
-          className="-mx-1 rounded px-1 font-mono text-sm hover:bg-white"
-        >
-          {color.hex}
-        </button>
-        <span aria-live="polite" className="text-xs text-signal">
-          {copied ? 'Copiato' : ''}
+    <li>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={`Copy ${color.hex}`}
+        className="group block w-full text-left"
+      >
+        <span
+          aria-hidden
+          className="block aspect-[4/3] rounded-md ring-1 ring-black/10 ring-inset transition-transform group-active:scale-[0.98]"
+          style={{ backgroundColor: color.hex }}
+        />
+        <span className="mt-2 flex items-baseline justify-between gap-2">
+          <span className="font-mono text-sm group-hover:underline group-hover:underline-offset-4">
+            {copied ? 'Copied' : color.hex}
+          </span>
+          <span className="text-sm tabular-nums">{percent.format(share)}</span>
         </span>
+      </button>
+      <p className="text-sm text-muted tabular-nums">
+        {integer.format(color.count)} {color.count === 1 ? unit : `${unit}s`}
+      </p>
+      <span aria-live="polite" className="sr-only">
+        {copied ? `${color.hex} copied` : ''}
       </span>
-      <span className="text-sm text-muted tabular-nums">
-        {integer.format(color.count)}
-        <span className="hidden sm:inline"> {color.count === 1 ? 'elemento' : 'elementi'}</span>
-      </span>
-      <span className="text-right text-sm tabular-nums">{percent.format(share)}</span>
     </li>
   )
 }
