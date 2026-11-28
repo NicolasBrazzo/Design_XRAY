@@ -59,6 +59,7 @@ TypeScript, Node.js, Playwright (libreria), css-tree (parsing CSS), culori (colo
 
 - `docs/brief.md`: cos'è il progetto, logica di inferenza, architettura, roadmap.
 - `docs/roadmap-prima-versione.md`: la roadmap attiva (dalla CLI al link pubblico).
+- `docs/checklist-conclusione.md`: le tappe aperte della roadmap divise in passi da spuntare.
 - `docs/lab/`: quaderno di laboratorio dell'utente (osservazioni e regole per ogni proprietà, per esempio `sfondi-conteggio-grezzo.md`, `colori-testo-conteggio-grezzo.md`).
 - `docs/da-sistemare.md`: cose notate durante il lavoro, da riprendere più avanti.
 - `engine/`: la pipeline e la CLI; qui gira Playwright con Chromium headless.
